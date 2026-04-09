@@ -1,21 +1,340 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0e0600; font-family: 'DM Sans', sans-serif; }
-.page { min-height: calc(100vh - 60px); background: #0e0600; padding: 2.5rem 2rem; max-width: 1100px; margin: 0 auto; }
-.page-header { margin-bottom: 2rem; }
-.page-back { font-size: 0.8rem; color: rgba(255,153,51,0.5); cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
-.page-back:hover { color: #FF9933; }
-.page-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem,3.5vw,2.2rem); font-weight: 700; color: #f5e6cc; margin-bottom: 0.5rem; }
-.page-sub { font-size: 0.88rem; color: rgba(240,230,211,0.45); line-height: 1.65; }
-.todo-banner { background: rgba(255,153,51,0.08); border: 1px dashed rgba(255,153,51,0.25); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 2rem; font-size: 0.82rem; color: rgba(255,153,51,0.6); line-height: 1.6; }
-.todo-banner strong { color: #FF9933; display: block; margin-bottom: 4px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
-.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-.filter-btn { font-size: 0.78rem; padding: 6px 16px; border: 1px solid rgba(255,153,51,0.15); border-radius: 999px; background: rgba(255,255,255,0.03); color: rgba(240,230,211,0.5); cursor: pointer; transition: all 0.15s; }
-.filter-btn.active, .filter-btn:hover { background: rgba(255,153,51,0.12); border-color: rgba(255,153,51,0.4); color: #FF9933; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; }
-.card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,153,51,0.1); border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
-.card:hover { border-color: rgba(255,153,51,0.3); }
-.card-img { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; background: rgba(255,153,51,0.05); }
-.card-body { padding: 12px; }
-.card-title { font-size: 0.9rem; font-weight: 500; color: #f5e6cc; margin-bottom: 4px; }
-.card-sub { font-size: 0.78rem; color: rgba(240,230,211,0.4); margin-bottom: 8px; }
-.tag { display: inline-block; font-size: 0.68rem; padding: 2px 9px; border-radius: 999px; background: rgba(255,153,51,0.1); color: rgba(255,153,51,0.7); }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top, rgba(255, 168, 94, 0.12), transparent 34%),
+    linear-gradient(180deg, #140805 0%, #090302 100%);
+  color: #f7ead7;
+  font-family: "DM Sans", sans-serif;
+}
+
+.food-map-page {
+  min-height: calc(100vh - 60px);
+  padding: 32px 20px 56px;
+}
+
+.food-map-shell {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.food-map-header {
+  margin-bottom: 28px;
+}
+
+.page-back {
+  display: inline-flex;
+  align-items: center;
+  color: rgba(255, 202, 148, 0.72);
+  text-decoration: none;
+  margin-bottom: 18px;
+  font-size: 0.92rem;
+}
+
+.page-back:hover {
+  color: #ffd28c;
+}
+
+.food-map-kicker,
+.map-overline,
+.panel-overline {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #ffb261;
+}
+
+.food-map-title {
+  margin: 10px 0 14px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.food-map-intro {
+  max-width: 760px;
+  color: rgba(247, 234, 215, 0.72);
+  line-height: 1.8;
+}
+
+.food-map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(360px, 0.85fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.india-map-card,
+.dish-panel {
+  position: relative;
+  background: rgba(34, 13, 7, 0.82);
+  border: 1px solid rgba(255, 182, 97, 0.18);
+  border-radius: 28px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.india-map-card {
+  padding: 24px;
+  overflow: hidden;
+}
+
+.india-map-card::before,
+.dish-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(255, 181, 109, 0.08), transparent 35%, transparent 65%, rgba(255, 215, 160, 0.05));
+  pointer-events: none;
+}
+
+.india-map-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.india-map-copy h2,
+.dish-panel-header h2 {
+  margin: 8px 0 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+}
+
+.india-map-copy p:last-child {
+  max-width: 320px;
+  color: rgba(247, 234, 215, 0.66);
+  line-height: 1.7;
+}
+
+.india-map-stage {
+  position: relative;
+  min-height: 760px;
+  border-radius: 24px;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 197, 136, 0.1), transparent 24%),
+    linear-gradient(180deg, rgba(255, 248, 240, 0.04), rgba(255, 173, 88, 0.02));
+  border: 1px solid rgba(255, 203, 140, 0.12);
+}
+
+.india-map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.india-map-backdrop {
+  fill: rgba(255, 183, 105, 0.06);
+  stroke: rgba(255, 205, 144, 0.18);
+  stroke-width: 2;
+}
+
+.india-state {
+  cursor: pointer;
+  transition: transform 0.18s ease;
+  outline: none;
+}
+
+.india-state rect {
+  fill: rgba(134, 62, 29, 0.82);
+  stroke: rgba(255, 218, 177, 0.24);
+  stroke-width: 2;
+  transition: fill 0.18s ease, stroke 0.18s ease, opacity 0.18s ease;
+}
+
+.india-state text {
+  fill: rgba(255, 247, 232, 0.88);
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.india-state:hover rect,
+.india-state.is-hovered rect,
+.india-state:focus rect {
+  fill: #d96f34;
+  stroke: #ffe1ad;
+}
+
+.india-state.is-active rect {
+  fill: #f39c45;
+  stroke: #fff4d2;
+}
+
+.india-state.is-active text {
+  fill: #4d1d0c;
+}
+
+.map-tooltip {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, calc(-100% - 16px));
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(15, 6, 3, 0.92);
+  border: 1px solid rgba(255, 194, 133, 0.3);
+  color: #fff4dd;
+  font-size: 0.84rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  white-space: nowrap;
+}
+
+.map-tooltip.visible {
+  opacity: 1;
+}
+
+.dish-panel {
+  position: sticky;
+  top: 88px;
+  padding: 24px;
+  min-height: 760px;
+  transform: translateX(18px);
+  opacity: 0.96;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.dish-panel.is-open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.dish-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 18px;
+}
+
+.panel-close {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 186, 107, 0.28);
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffca89;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.panel-close:hover {
+  border-color: rgba(255, 220, 170, 0.5);
+  color: #fff0d0;
+}
+
+.dish-panel-copy,
+.dish-panel-empty p {
+  color: rgba(247, 234, 215, 0.72);
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.dish-card-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.dish-card {
+  overflow: hidden;
+  border-radius: 22px;
+  background: rgba(255, 246, 236, 0.04);
+  border: 1px solid rgba(255, 194, 128, 0.14);
+}
+
+.dish-card-image {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid rgba(255, 194, 128, 0.14);
+}
+
+.dish-card-body {
+  padding: 18px;
+}
+
+.dish-card-body h3 {
+  margin: 0 0 10px;
+  font-family: "Playfair Display", serif;
+  font-size: 1.28rem;
+}
+
+.dish-card-body p {
+  margin: 0 0 16px;
+  color: rgba(247, 234, 215, 0.72);
+  line-height: 1.7;
+}
+
+.dish-card-link {
+  display: inline-flex;
+  align-items: center;
+  color: #ffcb8f;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.dish-card-link:hover {
+  color: #fff1d5;
+}
+
+.dish-panel-empty {
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  text-align: center;
+  border: 1px dashed rgba(255, 194, 128, 0.18);
+  border-radius: 24px;
+}
+
+@media (max-width: 1080px) {
+  .food-map-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dish-panel {
+    position: relative;
+    top: auto;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .food-map-page {
+    padding-inline: 14px;
+  }
+
+  .india-map-card,
+  .dish-panel {
+    border-radius: 22px;
+    padding: 18px;
+  }
+
+  .india-map-copy {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .india-map-stage {
+    min-height: 560px;
+    padding: 12px;
+  }
+
+  .map-tooltip {
+    font-size: 0.74rem;
+    padding: 8px 12px;
+  }
+
+  .dish-card-image {
+    height: 168px;
+  }
+}
