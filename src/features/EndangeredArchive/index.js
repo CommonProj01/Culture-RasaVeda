@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
@@ -7,47 +7,51 @@ export default function EndangeredArchive() {
 =========================================================
  FEATURE: Endangered Recipes Archive
 =========================================================
-
- GOAL:
-Show recipes marked as endangered with a warning banner.
-
----------------------------------------------------------
- REQUIREMENTS:
-1. Static dataset of recipes with isEndangered: true
-2. Warning banner at the top
-3. Each card shows name, region, and a "Contribute" button
-
----------------------------------------------------------
- IMPLEMENTATION STEPS:
-
-STEP 1 — Create recipes array, set isEndangered: true on some
-STEP 2 — Filter only endangered recipes
-STEP 3 — Render warning banner
-STEP 4 — Render endangered recipe cards
-
----------------------------------------------------------
- EXPECTED OUTPUT:
-
-✔ Warning banner visible
-✔ Only endangered recipes shown
-✔ Contribute button on each card
-
----------------------------------------------------------
- DO NOT:
-- Make API calls
-=========================================================
 */
-  return (
-    <div className="feature-page">
-      <Link to="/" className="page-back">← Back</Link>
-      <h1>Endangered Recipes Archive</h1>
 
-      <div className="todo-box">
-        <p>Warning banner + endangered recipe cards with Contribute button</p>
+  // ✅ STEP 1 — Static data
+  const recipes = [
+    { id: 1, name: "Siddu", region: "Himachal Pradesh", isEndangered: true },
+    { id: 2, name: "Bamboo Shoot Curry", region: "Northeast India", isEndangered: true },
+    { id: 3, name: "Khar", region: "Assam", isEndangered: true },
+    { id: 4, name: "Dal Baati", region: "Rajasthan", isEndangered: false },
+    { id: 5, name: "Patrode", region: "Karnataka", isEndangered: true },
+  ];
+
+  // ✅ STEP 2 — Filter endangered
+  const endangered = recipes.filter(r => r.isEndangered);
+
+  return (
+    <div className="page">
+      {/* Header */}
+      <div className="page-header">
+        <Link to="/" className="page-back">← Back</Link>
+        <h1 className="page-title">Endangered Recipes Archive</h1>
+        <p className="page-sub">
+          Preserving rare and disappearing traditional recipes from across India.
+        </p>
       </div>
 
-      <div className="placeholder">⚠️ WarningBanner</div>
-      <div className="placeholder">🃏 EndangeredRecipeCards</div>
+      {/* ✅ STEP 3 — Warning Banner */}
+      <div className="todo-banner">
+        ⚠️ These traditional recipes are at risk of disappearing. Help preserve them by contributing!
+      </div>
+
+      {/* ✅ STEP 4 — Cards */}
+      <div className="grid">
+        {endangered.map((r) => (
+          <div key={r.id} className="card">
+            <div className="card-img">🍲</div>
+
+            <div className="card-body">
+              <div className="card-title">{r.name}</div>
+              <div className="card-sub">{r.region}</div>
+
+              <button className="filter-btn">Contribute</button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
