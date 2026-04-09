@@ -11,6 +11,7 @@ export default function RecipeEncyclopedia() {
   =========================================================
 
    GOAL:
+   
   Build a paginated recipe listing page with filters.
 
   ---------------------------------------------------------
