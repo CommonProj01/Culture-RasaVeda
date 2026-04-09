@@ -4,13 +4,9 @@ import api from "../../api";
 import "./styles.css";
 
 export default function RecipeEncyclopedia() {
-
-
-  // STEP 1: Create state here
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Filters
   const [selectedRegion, setSelectedRegion] = useState("All");
   const [selectedDiet, setSelectedDiet] = useState("All");
   const [selectedCommunity, setSelectedCommunity] = useState("All");
@@ -20,7 +16,6 @@ export default function RecipeEncyclopedia() {
   const [viewMode, setViewMode] = useState("grid");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-  // STEP 2: Fetch API here
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -35,12 +30,15 @@ export default function RecipeEncyclopedia() {
     fetchRecipes();
   }, []);
 
-  // STEP 3: Filtering logic here
   const filteredRecipes = recipes.filter((recipe) => {
-    const matchRegion = selectedRegion === "All" || recipe.region === selectedRegion;
-    const matchDiet = selectedDiet === "All" || recipe.dietaryTag === selectedDiet;
-    const matchCommunity = selectedCommunity === "All" || recipe.community === selectedCommunity;
-    const matchLanguage = selectedLanguage === "All" || recipe.language === selectedLanguage;
+    const matchRegion =
+      selectedRegion === "All" || recipe.region === selectedRegion;
+    const matchDiet =
+      selectedDiet === "All" || recipe.dietaryTag === selectedDiet;
+    const matchCommunity =
+      selectedCommunity === "All" || recipe.community === selectedCommunity;
+    const matchLanguage =
+      selectedLanguage === "All" || recipe.language === selectedLanguage;
     return matchRegion && matchDiet && matchCommunity && matchLanguage;
   });
 
@@ -48,61 +46,119 @@ export default function RecipeEncyclopedia() {
     setCurrentPage(1);
   }, [selectedRegion, selectedDiet, selectedCommunity, selectedLanguage]);
 
-  // STEP 4: Pagination logic here
   const recipesPerPage = 6;
   const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
   const startIndex = (currentPage - 1) * recipesPerPage;
-  const currentRecipes = filteredRecipes.slice(startIndex, startIndex + recipesPerPage);
+  const currentRecipes = filteredRecipes.slice(
+    startIndex,
+    startIndex + recipesPerPage,
+  );
 
-  // Unique filter values
-  const regions = ["All", ...new Set(recipes.map((r) => r.region).filter(Boolean))];
-  const dietaryTags = ["All", ...new Set(recipes.map((r) => r.dietaryTag).filter(Boolean))];
-  const communities = ["All", ...new Set(recipes.map((r) => r.community).filter(Boolean))];
-  const languages = ["All", ...new Set(recipes.map((r) => r.language).filter(Boolean))];
+  const regions = [
+    "All",
+    ...new Set(recipes.map((r) => r.region).filter(Boolean)),
+  ];
+  const dietaryTags = [
+    "All",
+    ...new Set(recipes.map((r) => r.dietaryTag).filter(Boolean)),
+  ];
+  const communities = [
+    "All",
+    ...new Set(recipes.map((r) => r.community).filter(Boolean)),
+  ];
+  const languages = [
+    "All",
+    ...new Set(recipes.map((r) => r.language).filter(Boolean)),
+  ];
 
   return (
     <div className="recipe-page container">
-
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/" className="back">
+        ← Back
+      </Link>
 
       <div className="header-actions">
         <h1 className="title">Regional Recipe Encyclopedia</h1>
         <div className="view-toggles">
-          <button className={viewMode === "grid" ? "active" : ""} onClick={() => setViewMode("grid")}>Grid View</button>
-          <button className={viewMode === "list" ? "active" : ""} onClick={() => setViewMode("list")}>List View</button>
+          <button
+            className={viewMode === "grid" ? "active" : ""}
+            onClick={() => setViewMode("grid")}
+          >
+            Grid View
+          </button>
+          <button
+            className={viewMode === "list" ? "active" : ""}
+            onClick={() => setViewMode("list")}
+          >
+            List View
+          </button>
         </div>
       </div>
 
-      {/* Constraints and Filters */}
       <div className="filters-container">
         <div className="filters">
-          <label>Region:
-            <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)}>
-              {regions.map((region) => <option key={region} value={region}>{region}</option>)}
+          <label>
+            Region:
+            <select
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+            >
+              {regions.map((region) => (
+                <option key={region} value={region}>
+                  {region}
+                </option>
+              ))}
             </select>
           </label>
-          <label>Community:
-            <select value={selectedCommunity} onChange={(e) => setSelectedCommunity(e.target.value)}>
-              {communities.map((comm) => <option key={comm} value={comm}>{comm}</option>)}
+
+          <label>
+            Community:
+            <select
+              value={selectedCommunity}
+              onChange={(e) => setSelectedCommunity(e.target.value)}
+            >
+              {communities.map((comm) => (
+                <option key={comm} value={comm}>
+                  {comm}
+                </option>
+              ))}
             </select>
           </label>
-          <label>Language:
-            <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
-              {languages.map((lang) => <option key={lang} value={lang}>{lang}</option>)}
+
+          <label>
+            Language:
+            <select
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+            >
+              {languages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang}
+                </option>
+              ))}
             </select>
           </label>
-          <label>Diet:
-            <select value={selectedDiet} onChange={(e) => setSelectedDiet(e.target.value)}>
-              {dietaryTags.map((diet) => <option key={diet} value={diet}>{diet}</option>)}
+
+          <label>
+            Diet:
+            <select
+              value={selectedDiet}
+              onChange={(e) => setSelectedDiet(e.target.value)}
+            >
+              {dietaryTags.map((diet) => (
+                <option key={diet} value={diet}>
+                  {diet}
+                </option>
+              ))}
             </select>
           </label>
         </div>
+
         <div className="results-count">
           Showing {filteredRecipes.length} recipes
         </div>
       </div>
 
-      {/* Recipe Grid / List */}
       {loading ? (
         <p className="loading-state">Loading deliciousness...</p>
       ) : filteredRecipes.length === 0 ? (
@@ -110,23 +166,27 @@ export default function RecipeEncyclopedia() {
       ) : (
         <div className={`recipe-container ${viewMode}`}>
           {currentRecipes.map((recipe) => (
-            <div key={recipe.id} className="card" onClick={() => setSelectedRecipe(recipe)}>
+            <div
+              key={recipe.id}
+              className="card"
+              onClick={() => setSelectedRecipe(recipe)}
+            >
               <div className="card-content">
                 <h3>{recipe.name}</h3>
-                <p><strong>Origin:</strong> {recipe.region} ({recipe.community})</p>
+                <p>
+                  <strong>Origin:</strong> {recipe.region} ({recipe.community})
+                </p>
                 <div className="tags">
                   <span className="tag">{recipe.dietaryTag}</span>
                   <span className="tag outline">{recipe.language}</span>
                 </div>
-                {viewMode === "grid" && <p className="desc">{recipe.description}</p>}
-                {viewMode === "list" && <p className="desc">{recipe.description}</p>}
+                <p className="desc">{recipe.description}</p>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Pagination */}
       {!loading && totalPages > 1 && (
         <div className="pagination">
           {[...Array(totalPages)].map((_, i) => (
@@ -141,34 +201,20 @@ export default function RecipeEncyclopedia() {
         </div>
       )}
 
-      {/* Detailed View Modal */}
       {selectedRecipe && (
         <div className="modal-overlay" onClick={() => setSelectedRecipe(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
+            <button
+              className="close-btn"
+              onClick={() => setSelectedRecipe(null)}
+            >
+              ×
+            </button>
             <h2>{selectedRecipe.name}</h2>
-            <div className="modal-meta">
-              <span className="tag">{selectedRecipe.dietaryTag}</span>
-              <span className="tag outline">{selectedRecipe.region} • {selectedRecipe.community}</span>
-            </div>
-            <p className="modal-desc">{selectedRecipe.description}</p>
-
-            <div className="ingredients-section">
-              <h3>Ingredients</h3>
-              {selectedRecipe.ingredients ? (
-                <ul>
-                  {selectedRecipe.ingredients.map((ing, idx) => (
-                    <li key={idx}>{ing}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No ingredients listed.</p>
-              )}
-            </div>
+            <p>{selectedRecipe.description}</p>
           </div>
         </div>
       )}
-
     </div>
   );
 }
