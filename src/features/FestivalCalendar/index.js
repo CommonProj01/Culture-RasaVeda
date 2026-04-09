@@ -3,78 +3,92 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 
 export default function FestivalCalendar() {
-  /*
-=========================================================
-FEATURE: Festival Food Calendar
-=========================================================
+  // STEP 2: Events dataset
+  const festivalData = {
+    13: {
+      name: "Dussehra",
+      foods: [["🍎", "Apta Leaves (Symbolic)", "Ritual"], ["🍬", "Shrikhand", "Sweet"], ["🍛", "Kadhibari", "Main Course"]]
+    },
+    20: {
+      name: "Diwali",
+      foods: [["🍬", "Kaju Katli", "Sweet"], ["🥛", "Kheer", "Dessert"], ["🧆", "Besan Ladoo", "Sweet"]]
+    },
+    10: {
+      name: "Gudi Padwa",
+      foods: [["🍃", "Neem Leaves", "Ritual"], ["🥯", "Puran Poli", "Sweet"], ["🥤", "Aam Panna", "Drink"]]
+    }
+  };
 
-GOAL:
-Display a calendar with festivals and show foods on date click.
+  // STEP 1 & 4: State for handling date click
+  const [selectedDate, setSelectedDate] = useState(20); // Default to Diwali for preview
 
----------------------------------------------------------
- REQUIREMENTS:
-1. Use FullCalendar
-2. Show festivals as events
-3. On date click → show food items
-
----------------------------------------------------------
- IMPLEMENTATION STEPS:
-
-STEP 1 — Install FullCalendar
-
-STEP 2 — Create events dataset:
-  - title, date, foods[]
-
-STEP 3 — Render calendar
-
-STEP 4 — Handle date click
-
-STEP 5 — Display foods list
-
----------------------------------------------------------
- EXPECTED OUTPUT:
-
-✔ Calendar visible
-✔ Festivals marked
-✔ Clicking date shows foods
-
----------------------------------------------------------
- DO NOT:
-- Add backend integration
-=========================================================
-*/
   return (
     <div className="page">
       <div className="page-header">
         <Link to="/" className="page-back">← Back to Home</Link>
         <h1 className="page-title">Festival Food Calendar</h1>
-        <p className="page-sub">Explore traditional foods associated with festivals across India throughout the year.</p>
+        <p className="page-sub">Click on highlighted dates to explore traditional festival dishes.</p>
       </div>
-      <div className="todo-banner">
-        <strong>TODO — Your task</strong>
-        Integrate a calendar library like react-calendar. Mark festival dates. When a date is clicked show food cards for that festival. Fetch festival data from the API.
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginTop: "20px" }}>
+        
+        {/* STEP 3: Render Calendar */}
+        <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,153,51,0.1)", borderRadius: 14, overflow: "hidden" }}>
+          <div style={{ background: "#c0392b", padding: "12px 16px", display: "flex", justifyContent: "space-between" }}>
+            <span style={{ color: "#fff", fontWeight: 500 }}>October 2026</span>
+            <span style={{ color: "rgba(255,255,255,0.6)" }}>‹ April ›</span>
+          </div>
+          <div style={{ padding: 20, display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 8 }}>
+            {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+              <div key={i} style={{ textAlign: "center", fontSize: "0.8rem", color: "rgba(240,230,211,0.5)", fontWeight: "bold" }}>{d}</div>
+            ))}
+            {Array.from({ length: 31 }, (_, i) => {
+              const day = i + 1;
+              const isFestival = festivalData[day];
+              return (
+                <div
+                  key={i}
+                  onClick={() => isFestival && setSelectedDate(day)}
+                  style={{
+                    textAlign: "center",
+                    cursor: isFestival ? "pointer" : "default",
+                    padding: "10px 0",
+                    borderRadius: 8,
+                    transition: "0.3s",
+                    background: day === selectedDate ? "#FF9933" : isFestival ? "rgba(255,153,51,0.2)" : "transparent",
+                    color: day === selectedDate ? "#000" : isFestival ? "#FF9933" : "rgba(240,230,211,0.5)",
+                    fontWeight: isFestival ? "bold" : "normal",
+                    border: day === selectedDate ? "1px solid #FF9933" : "none"
+                  }}
+                >
+                  {day}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* STEP 5: Display Foods List */}
+        <div>
+          <div style={{ fontSize: "0.9rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#FF9933", marginBottom: 15, fontWeight: "bold" }}>
+            {festivalData[selectedDate]?.name || "Select a festival date"} — Traditional Dishes
+          </div>
+          
+          {festivalData[selectedDate] ? (
+            festivalData[selectedDate].foods.map(([emoji, name, type]) => (
+              <div key={name} style={{ display: "flex", alignItems: "center", gap: 15, padding: "12px 16px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,153,51,0.2)", borderRadius: 12, marginBottom: 10 }}>
+                <span style={{ fontSize: "1.8rem" }}>{emoji}</span>
+                <div>
+                  <div style={{ fontSize: "1rem", color: "#f5e6cc", fontWeight: 500 }}>{name}</div>
+                  <span style={{ fontSize: "0.7rem", color: "#FF9933", border: "1px solid #FF9933", padding: "2px 6px", borderRadius: 4, marginTop: 4, display: "inline-block" }}>{type}</span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p style={{ color: "rgba(240,230,211,0.5)" }}>Click a highlighted date on the calendar to see the menu.</p>
+          )}
+        </div>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem"}}>
-  <div style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,153,51,0.1)",borderRadius:14,overflow:"hidden"}}>
-    <div style={{background:"#c0392b",padding:"10px 16px",display:"flex",justifyContent:"space-between"}}>
-      <span style={{color:"#fff",fontWeight:500}}>October 2024</span>
-      <span style={{color:"rgba(255,255,255,0.6)"}}>‹ ›</span>
-    </div>
-    <div style={{padding:16,display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:4}}>
-      {["S","M","T","W","T","F","S"].map((d,i) => <div key={i} style={{textAlign:"center",fontSize:"0.7rem",color:"rgba(240,230,211,0.35)",paddingBottom:6}}>{d}</div>)}
-      {Array.from({length:31},(_,i) => <div key={i} style={{textAlign:"center",fontSize:"0.78rem",padding:"4px 2px",borderRadius:6,background:i===12||i===19?"rgba(255,153,51,0.15)":"transparent",color:i===12||i===19?"#FF9933":"rgba(240,230,211,0.5)"}}>{i+1}</div>)}
-    </div>
-  </div>
-  <div>
-    <div style={{fontSize:"0.75rem",letterSpacing:"0.1em",textTransform:"uppercase",color:"rgba(255,153,51,0.5)",marginBottom:12}}>Diwali — Traditional Dishes</div>
-    {[["🍬","Kaju Katli","Sweet"],["🥛","Kheer","Dessert"],["🧆","Besan Ladoo","Sweet"]].map(([e,n,t]) => (
-      <div key={n} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,153,51,0.1)",borderRadius:10,marginBottom:8}}>
-        <span style={{fontSize:"1.5rem"}}>{e}</span>
-        <div><div style={{fontSize:"0.85rem",color:"#f5e6cc"}}>{n}</div><span className="tag" style={{marginTop:4,display:"inline-block"}}>{t}</span></div>
-      </div>
-    ))}
-  </div>
-</div>
     </div>
   );
 }
