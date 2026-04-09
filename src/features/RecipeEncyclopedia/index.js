@@ -4,7 +4,6 @@ import api from "../../api";
 import "./styles.css";
 
 export default function RecipeEncyclopedia() {
-
   /*
   =========================================================
    FEATURE: Regional Recipe Encyclopedia
@@ -85,38 +84,28 @@ export default function RecipeEncyclopedia() {
 
   //  STEP 1: Create state here
 
-
   //  STEP 2: Fetch API here
-
 
   //  STEP 3: Filtering logic here
 
-
   //  STEP 4: Pagination logic here
-
 
   return (
     <div className="recipe-page">
-
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/" className="back">
+        ← Back
+      </Link>
 
       <h1 className="title">Regional Recipe Encyclopedia</h1>
 
       {/*  STEP 5A: Filter Bar */}
-      <div className="placeholder">
-         Implement Filter Buttons Here
-      </div>
+      <div className="placeholder">Implement Filter Buttons Here</div>
 
       {/*  STEP 5B: Recipe Grid */}
-      <div className="placeholder">
-         Render Recipe Cards Here
-      </div>
+      <div className="placeholder">Render Recipe Cards Here</div>
 
       {/*  STEP 5C: Pagination */}
-      <div className="placeholder">
-         Add Pagination Controls Here
-      </div>
-
+      <div className="placeholder">Add Pagination Controls Here</div>
     </div>
   );
 }
